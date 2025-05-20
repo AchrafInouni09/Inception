@@ -1,0 +1,28 @@
+
+services:
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx-container
+    restart: on-failure
+    ports:
+      - "443:443"
+    networks:
+      - app-network
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
+  mysql:
+    build: ./requirements/mariadb
+    container_name: mysql-container
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+networks:
+  app-network:
+    driver: bridge
